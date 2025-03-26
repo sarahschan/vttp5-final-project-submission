@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet+* {
+  display: block;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .navbar-brand img {
+  margin-right: 10px;
+}
+
+.header p {
+  margin: 0;
+}
+
+.navbar {
+  padding-top: 2%;
+  width: 100%;
+}
+
+.navbar .navbar-nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.navbar .nav-item {
+  margin: 0 15px;
+}
+
+.body-container {
+  flex: 1;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: auto !important;
+}

@@ -1,0 +1,395 @@
+.activity-feed-container {
+  width: calc(100% - 2rem);
+  margin: 0.25rem 1rem;
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (min-width: 992px) {
+    padding: 2rem 4rem;
+  }
+}
+
+.page-title {
+  text-align: center;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  padding-top: 2rem;
+}
+
+
+@media (max-width: 768px) {
+  .page-title {
+    padding-top: 3rem;
+  }
+}
+
+.page-description {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0 auto;
+    max-width: 800px;
+    line-height: 1.5;
+
+    @media (min-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.activity-section-divider {
+  height: 30px;
+}
+
+.empty-feed {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 800px;
+
+  p {
+    margin: 0;
+    color: #666;
+    font-size: 1.1rem;
+  }
+}
+
+.activity-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.activity-header {
+  background-color: #fcfcfc;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  .profile-picture {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .username {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #189c4a;
+      cursor: pointer;
+    }
+  }
+}
+
+.activity-content {
+  padding: 2rem;
+
+  .activity-text {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 1rem;
+  }
+}
+
+.recipe-card {
+  background-color: #fafafa;
+  border-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+
+  .recipe-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+
+  .recipe-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1.25rem 1.25rem;
+  }
+
+  .recipe-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+  }
+
+  .comment-text {
+    margin: 0 1.25rem 1.25rem;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    border-left: 3px solid #189c4a;
+    font-style: italic;
+    color: #555;
+  }
+
+  .button-container {
+    margin: 0 1.25rem 1.25rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.followed-user {
+  background-color: #fafafa;
+  border-radius: 4px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-picture {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .username {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+  }
+}
+
+.activity-footer {
+  padding: 0.75rem 1.5rem;
+  background-color: #fcfcfc;
+  text-align: right;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+  .timestamp {
+    font-size: 0.85rem;
+    color: #999;
+    font-style: normal;
+  }
+}
+
+.loading-container {
+  text-align: center;
+  padding: 3rem 0;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .spinner {
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid rgba(24, 156, 74, 0.15);
+    border-top-color: #189c4a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.no-more-activities {
+  text-align: center;
+  padding: 2rem 0;
+  color: #999;
+  margin: 1rem auto 3rem;
+  max-width: 800px;
+  border-top: 1px solid #eee;
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.btn {
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-main {
+  background-color: #189c4a;
+  border-color: #189c4a;
+  color: white;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #147c3c;
+    border-color: #147c3c;
+    color: white;
+  }
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+
+  &:hover {
+    background-color: #147c3c;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 65px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .activity-feed-container {
+    margin: 0 1rem;
+    padding: 2rem 1rem 1rem 1rem;
+  }
+
+  .recipe-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .recipe-title {
+      margin-bottom: 0.75rem;
+      text-align: left;
+      width: 100%;
+    }
+
+    .btn {
+      align-self: flex-end;
+    }
+  }
+
+  .followed-user {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .user-info {
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+
+    .btn {
+      align-self: flex-end;
+    }
+  }
+
+  .btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .activity-feed-container {
+    padding: 2rem 1rem 1rem 1rem;
+  }
+
+  .activity-content {
+    padding: 1rem;
+  }
+
+  .recipe-card {
+    .recipe-image {
+      height: 200px;
+    }
+
+    .recipe-title-row {
+      margin: 0 1rem 1rem;
+    }
+
+    .comment-text {
+      margin: 0 1rem 1rem;
+    }
+  }
+
+  .btn {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}

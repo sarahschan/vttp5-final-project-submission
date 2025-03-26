@@ -1,0 +1,87 @@
+<div class="container">
+  <h3>Liked Recipes</h3>
+  
+  <br>
+
+  <!-- Loading Spinner -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+  
+  <!-- No Recipes Message -->
+  @if (!loading && recipes.length === 0) {
+    <div class="no-recipes-message">
+        <i class="bi bi-info-circle"></i>&nbsp;
+        <span>No recipes to show</span>
+    </div>
+  }
+  
+  <!-- Recipe Grid -->
+  @if (!loading && recipes.length > 0) {
+    <div class="recipe-grid">
+      @for (recipe of recipes; track recipe.recipeId) {
+        <div class="recipe-item">
+          <div class="recipe-card">
+            <a [routerLink]="['/recipes', recipe.recipeId]" class="recipe-image-link">
+              <div class="recipe-image-container">
+                <img [src]="recipe.imageUrl || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" alt="{{ recipe.title }}">
+              </div>
+            </a>
+            <div class="card-body">
+              <a [routerLink]="['/recipes', recipe.recipeId]" class="title-link">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+              </a>
+              <p class="card-text">
+                By <a [routerLink]="['/users', recipe.username]" class="username-link">{{ recipe.username }}</a>
+              </p>
+
+              <div class="nutrition-info">
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Calories:</span>
+                  <span class="nutrition-value">{{ recipe.calories }} kcals</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Protein:</span>
+                  <span class="nutrition-value">{{ recipe.protein }}g</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Carbs:</span>
+                  <span class="nutrition-value">{{ recipe.carbs }}g</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Fats:</span>
+                  <span class="nutrition-value">{{ recipe.fats }}g</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <small>
+                <i class="bi bi-heart-fill"></i>
+                {{ recipe.likes }} {{ recipe.likes === 1 ? 'like' : 'likes' }}
+              </small>
+              <app-like-button [recipeId]="recipe.recipeId" class="recipe-like-button"></app-like-button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    
+    <!-- Pagination -->
+    @if (totalElements > 0) {
+      <div class="pagination-container">
+        <mat-paginator
+          [length]="totalElements"
+          [pageSize]="size"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="page"
+          (page)="handlePageEvent($event)"
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    }
+  }
+</div>

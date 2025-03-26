@@ -1,0 +1,29 @@
+<div class="user-profile-container">
+  @if (user) {
+    <div class="profile-card">
+      <div class="profile-image-wrapper">
+        <img [src]="user.profile_picture ?? 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'"
+             alt="Profile Picture" class="profile-image">
+      </div>
+      <div class="profile-info">
+        <h1 class="username">{{user.username}}</h1>
+        <h3 class="name">{{ user.name | titlecase }}</h3>
+        <div class="bio-container">
+          @if (user.short_bio) {
+            <p class="bio">{{user.short_bio}}</p>
+          } @else {
+            <p class="bio-empty"><em>No bio provided</em></p>
+          }
+        </div>
+        <app-follow-button 
+          [userIdToFollow]="user.userId ?? 0">
+        </app-follow-button>
+      </div>
+    </div>
+  } @else {
+    <div class="not-found">
+      <span class="material-icons">person_off</span>
+      <p>User not found</p>
+    </div>
+  }
+</div>

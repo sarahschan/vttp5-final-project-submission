@@ -1,0 +1,427 @@
+.gemini-recipe-container {
+  margin: 2rem 10rem;
+
+  @media (max-width: 768px) {
+    .nutrition-container {
+      margin: 0 1rem;
+      padding: 2rem 1rem 1rem 1rem;
+    }
+  }
+}
+
+
+.page-title {
+  text-align: center;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  padding-top: 2rem;
+}
+
+
+@media (max-width: 768px) {
+  .page-title {
+    padding-top: 3rem;
+  }
+}
+
+.page-description {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+
+    @media (min-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.gemini-section-divider {
+  height: 50px;
+}
+
+
+.gemini-recipe-form {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .gemini-section-heading {
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    color: #212529;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 3rem;
+      height: 2px;
+      background-color: #189c4a;
+    }
+  }
+}
+
+.gemini-field-group {
+  margin-bottom: 1.5rem;
+}
+
+.gemini-field-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.gemini-input,
+.gemini-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+  margin-top: 0;
+
+  &:focus {
+    outline: none;
+    border-color: #189c4a;
+    box-shadow: 0 0 0 2px rgba(24, 156, 74, 0.2);
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+  }
+}
+
+.error-message {
+  display: block;
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+
+.gemini-table-container {
+  margin-top: 0.5rem;
+  overflow-x: auto;
+}
+
+.gemini-table {
+  margin-bottom: 1.5rem;
+  border: none;
+  background-color: transparent;
+
+  .table-header {
+    font-weight: 500;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    background-color: transparent;
+    border: none;
+    padding-bottom: 0.25rem;
+    padding-top: 0;
+  }
+
+  .table-cell {
+    vertical-align: middle;
+    padding: 0.5rem;
+    border: none;
+    background-color: transparent;
+
+    .gemini-input,
+    .gemini-select {
+      font-size: 0.85rem;
+      margin: 0;
+      height: calc(1.5em + 0.5rem + 2px);
+    }
+
+    .error-message {
+      margin-top: 2px;
+      margin-bottom: 0;
+      line-height: 1;
+    }
+  }
+
+  .table-row {
+    border: none;
+    background-color: transparent;
+
+    &:hover,
+    &:nth-child(odd),
+    &:nth-child(even) {
+      background-color: transparent;
+    }
+  }
+
+  .table-header-row {
+    border: none;
+    background-color: transparent;
+  }
+}
+
+
+.common-ingredients-section {
+  margin-top: 2rem;
+
+  .gemini-section-heading {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .gemini-description {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.form-check-input {
+  &:checked {
+    background-color: #189c4a;
+    border-color: #189c4a;
+  }
+
+  &:focus {
+    border-color: #189c4a;
+    box-shadow: 0 0 0 0.2rem rgba(24, 156, 74, 0.25);
+  }
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 0.85rem;
+}
+
+
+.btn {
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:active,
+  &:focus {
+    box-shadow: none !important;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.btn-main {
+  background-color: #189c4a;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #294c25;
+  }
+
+  &:disabled {
+    background-color: rgba(24, 156, 74, 0.6);
+    cursor: not-allowed;
+  }
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+}
+
+.btn-trash {
+  margin-top: 0;
+}
+
+.gemini-action-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+
+.generated-recipe {
+  margin-top: 1.5rem;
+  padding: 3rem 5rem;
+  background-color: rgba(24, 156, 74, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(24, 156, 74, 0.2);
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  h3 {
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: #212529;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2.5rem;
+      height: 2px;
+      background-color: #189c4a;
+    }
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: #495057;
+    line-height: 1.5;
+  }
+
+  .recipe-meta {
+    display: flex;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+
+    .recipe-meta-item {
+      margin-right: 2rem;
+      margin-bottom: 0.5rem;
+
+      span {
+        font-weight: 500;
+        color: #189c4a;
+      }
+    }
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+  }
+
+  ol li {
+    padding-left: 0.5rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .gemini-recipe-container {
+    margin: 0 1rem;
+    padding: 2rem 1rem 1rem 1rem;
+  }
+
+  .generated-recipe {
+    padding: 1rem;
+  }
+
+  .recipe-meta {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .btn {
+    margin-bottom: 0.5rem;
+  }
+
+  .gemini-action-container {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .gemini-table-container {
+    border: 0;
+    background-color: transparent;
+
+    .gemini-table {
+      border: 0;
+
+      .table-header-row {
+        display: none;
+      }
+
+      .table-row {
+        margin-bottom: 1rem;
+        display: block;
+        border-bottom: none;
+      }
+
+      .table-cell {
+        display: block;
+        text-align: right;
+        font-size: 0.875rem;
+        border-bottom: none;
+
+        &:before {
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        .error-message {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+.alert {
+  text-align: center;
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  margin-top: 1.5rem;
+
+  i {
+    margin-right: 0.5rem;
+  }
+}

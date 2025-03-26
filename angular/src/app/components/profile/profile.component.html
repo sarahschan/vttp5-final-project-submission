@@ -1,0 +1,86 @@
+<div class="user-profile-container">
+  @if (user) {
+    <div class="profile-card">
+      <div class="profile-image-wrapper position-relative">
+        <img [src]="user.profile_picture ?? 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+             alt="Profile Picture" class="profile-image">
+        <div class="edit-overlay">
+          <a (click)="openProfilePictureModal()" class="edit-button">
+            Change
+          </a>
+        </div>
+      </div>
+
+      <h1 class="username">{{user.username}}</h1>
+      <h3 class="name">{{ user.name | titlecase }}</h3>
+      
+      <div class="bio-container">
+        @if (user.short_bio) {
+          <p class="bio">{{user.short_bio}}</p>
+        } @else {
+          <p class="bio-empty">No bio provided</p>
+        }
+        <div class="edit-bio-button">
+          <button class="btn btn-sm btn-edit" (click)="openBioModal()">
+            Edit Bio
+          </button>
+        </div>
+      </div>
+      
+      <div class="actions-container">
+        <button class="btn btn-danger" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </div>
+    </div>
+  }
+</div>
+
+
+<ng-template #profilePictureModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Change Profile Picture</h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="profilePicture">Select a new profile picture</label>
+      <input type="file" class="form-control-file" id="profilePicture" 
+             (change)="onFileSelected($event)" accept=".png, .jpeg, .jpg">
+    </div>
+
+    @if (imagePreview) {
+      <div class="mt-3">
+        <h5>Preview:</h5>
+        <img [src]="imagePreview" alt="Preview" class="img-thumbnail" style="max-height: 200px;">
+      </div>
+    }
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="!selectedFile" (click)="uploadProfilePicture(); modal.close()">Save</button>
+  </div>
+</ng-template>
+
+
+<ng-template #bioModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Bio</h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="bioText">Your Bio</label>
+      <textarea class="form-control" id="bioText" rows="4" [(ngModel)]="editedBio" maxlength="1000"></textarea>
+    </div>
+    <small>
+      {{ editedBio.length || 0 }}/1000 characters
+    </small>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="updateBio(); modal.close()">Save</button>
+  </div>
+</ng-template>

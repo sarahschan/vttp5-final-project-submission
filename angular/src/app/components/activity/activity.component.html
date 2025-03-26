@@ -1,0 +1,138 @@
+<div class="activity-feed-container">
+  
+  <h1 class="page-title">Activity Feed</h1>
+  
+  <div class="page-description">
+    <p>Stay updated with what people you follow are cooking, liking, and commenting on.</p>
+    <br>
+  </div>
+  
+
+  @if (followingList.length === 0) {
+    <div class="empty-feed">
+      <p>You're not following anyone yet. Follow some users to see their activities!</p>
+    </div>
+  }
+  
+  @if (followingList.length > 0 && activityFeed.length === 0 && !isLoading) {
+    <div class="empty-feed">
+      <p>No activities to show. Follow more users to see their activities!</p>
+    </div>
+  }
+  
+
+  @for (activity of activityFeed; track activity) {
+    <div class="activity-item">
+
+      <div class="activity-header">
+        <img 
+          [src]="activity.userProfilePicture || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+          alt="Profile picture" 
+          class="profile-picture">
+        <span class="username" [routerLink]="[`/users/${activity.username}`]">{{ activity.username }}</span>
+      </div>
+      
+
+      @if (activity.activityType === 'post') {
+        <div class="activity-content">
+          <h6 class="activity-text">Posted a new recipe:</h6>
+          <div class="recipe-card">
+            <img 
+              [src]="activity.recipeImageUrl || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/recipe.png'" 
+              alt="Recipe image" 
+              class="recipe-image">
+            <div class="recipe-title-row">
+              <h3 class="recipe-title">{{ activity.recipeTitle }}</h3>
+              <button [routerLink]="['/recipes', activity.recipeId]" class="btn btn-main">View Recipe</button>
+            </div>
+          </div>
+        </div>
+      }
+      
+
+      @if (activity.activityType === 'like') {
+        <div class="activity-content">
+          <h6 class="activity-text">Liked a recipe:</h6>
+          <div class="recipe-card">
+            <img 
+              [src]="activity.recipeImageUrl || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+              alt="Recipe image" 
+              class="recipe-image">
+            <div class="recipe-title-row">
+              <h3 class="recipe-title">{{ activity.recipeTitle }}</h3>
+              <button [routerLink]="['/recipes', activity.recipeId]" class="btn btn-main">View Recipe</button>
+            </div>
+          </div>
+        </div>
+      }
+      
+
+      @if (activity.activityType === 'comment') {
+        <div class="activity-content">
+          <h6 class="activity-text">Commented on a recipe</h6>
+          <div class="recipe-card">
+            <img 
+              [src]="activity.recipeImageUrl || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+              alt="Recipe image" 
+              class="recipe-image">
+            <div class="recipe-title-row">
+              <h3 class="recipe-title">{{ activity.recipeTitle }}</h3>
+              <button [routerLink]="['/recipes', activity.recipeId]" class="btn btn-main">View Recipe</button>
+            </div>
+            <div class="comment-text">
+              "{{ activity.commentText }}"
+            </div>
+          </div>
+        </div>
+      }
+      
+
+      @if (activity.activityType === 'follow') {
+        <div class="activity-content">
+          <h6 class="activity-text">Followed a new user</h6>
+          <div class="followed-user">
+            <div class="user-info">
+              <img 
+                [src]="activity.followedUserProfilePicture || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+                alt="Profile picture" 
+                class="profile-picture">
+              <span class="username">{{ activity.followedUsername }}</span>
+            </div>
+            <button [routerLink]="['/users', activity.followedUsername]" class="btn btn-main">View Profile</button>
+          </div>
+        </div>
+      }
+      
+
+      <div class="activity-footer">
+        <span class="timestamp">{{ activity.timestamp | date:'short' }}</span>
+      </div>
+    </div>
+  }
+  
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+  
+
+  @if (!isLoading && !hasMoreActivities && activityFeed.length > 0) {
+    <div class="no-more-activities">
+      <p>No more activities to load</p>
+    </div>
+  }
+  
+
+  @if (showBackToTop) {
+    <button 
+      class="btn btn-main back-to-top-btn" 
+      (click)="scrollToTop()"
+      aria-label="Back to top">
+      <i class="bi bi-arrow-up"></i>
+    </button>
+  }
+</div>

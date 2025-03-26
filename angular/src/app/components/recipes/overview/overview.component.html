@@ -1,0 +1,224 @@
+<div class="container-fluid">
+
+  <h1 class="page-title">All Recipes</h1>
+  
+  <div class="page-description">
+    <p>Explore our delicious collection of nutritious recipes crafted by our community. Whether you're looking for protein-packed meals or low-carb delights, you'll find something to satisfy your cravings while meeting your health goals!</p>
+  </div>
+
+  <div class="create-recipe-container">
+    <a [routerLink]="['/recipes/new']" class="create-recipe-button">
+      <i class="bi bi-plus-circle"></i>
+      Create New Recipe
+    </a>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div #filterContainerRef class="filter-container">
+        <div class="filter-header">
+          <h5>Filter Recipes</h5>
+          @if (hasActiveFilters()) {
+            <button type="button" class="btn-clear-all" (click)="resetFilters()">
+              <i class="bi bi-x-circle"></i>Clear All
+            </button>
+          }
+        </div>
+        
+
+        <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+          <div class="row">
+            <!-- Calories -->
+            <div class="col-sm-6 col-md-2">
+              <label class="form-label">Calories</label>
+              <div class="input-group">
+                <input type="number" class="form-control" formControlName="minCalories" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" class="form-control" formControlName="maxCalories" placeholder="Max">
+              </div>
+            </div>
+
+            <!-- Protein -->
+            <div class="col-sm-6 col-md-2">
+              <label class="form-label">Protein (g)</label>
+              <div class="input-group">
+                <input type="number" class="form-control" formControlName="minProtein" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" class="form-control" formControlName="maxProtein" placeholder="Max">
+              </div>
+            </div>
+
+            <!-- Carbs -->
+            <div class="col-sm-6 col-md-2">
+              <label class="form-label">Carbs (g)</label>
+              <div class="input-group">
+                <input type="number" class="form-control" formControlName="minCarbs" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" class="form-control" formControlName="maxCarbs" placeholder="Max">
+              </div>
+            </div>
+
+            <!-- Fats -->
+            <div class="col-sm-6 col-md-2">
+              <label class="form-label">Fats (g)</label>
+              <div class="input-group">
+                <input type="number" class="form-control" formControlName="minFats" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" class="form-control" formControlName="maxFats" placeholder="Max">
+              </div>
+            </div>
+
+            <!-- Sort -->
+            <div class="col-sm-6 col-md-2">
+              <label for="sortBySelect" class="form-label">Sort by</label>
+              <select id="sortBySelect" class="form-select" formControlName="sortBy" (change)="onSortChange()">
+                @for (option of sortOptions; track option) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-sm-6 col-md-2">
+              <div class="action-buttons">
+                <button type="submit" class="btn-apply">
+                  <i class="bi bi-funnel"></i>Apply
+                </button>
+                <button type="button" class="btn-reset" (click)="resetFilters()">
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Active filters -->
+        @if (hasActiveFilters()) {
+          <div class="active-filters">
+            @if (filterForm.get('minCalories')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-fire"></i>Min calories: {{ filterForm.get('minCalories')?.value }}
+              </span>
+            }
+            @if (filterForm.get('maxCalories')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-fire"></i>Max calories: {{ filterForm.get('maxCalories')?.value }}
+              </span>
+            }
+            @if (filterForm.get('minProtein')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-egg-fried"></i>Min protein: {{ filterForm.get('minProtein')?.value }}g
+              </span>
+            }
+            @if (filterForm.get('maxProtein')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-egg-fried"></i>Max protein: {{ filterForm.get('maxProtein')?.value }}g
+              </span>
+            }
+            @if (filterForm.get('minCarbs')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-circle"></i>Min carbs: {{ filterForm.get('minCarbs')?.value }}g
+              </span>
+            }
+            @if (filterForm.get('maxCarbs')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-circle"></i>Max carbs: {{ filterForm.get('maxCarbs')?.value }}g
+              </span>
+            }
+            @if (filterForm.get('minFats')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-droplet"></i>Min fats: {{ filterForm.get('minFats')?.value }}g
+              </span>
+            }
+            @if (filterForm.get('maxFats')?.value) {
+              <span class="filter-badge">
+                <i class="bi bi-droplet"></i>Max fats: {{ filterForm.get('maxFats')?.value }}g
+              </span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  <!-- Recipe -->
+  @if (!loading) {
+    <div class="recipe-grid">
+      @for (recipe of recipes; track recipe.recipeId) {
+        <div class="recipe-item">
+          <div class="recipe-card">
+            <a [routerLink]="['/recipes', recipe.recipeId]" class="recipe-image-link">
+              <div class="recipe-image-container">
+                <img [src]="recipe.imageUrl || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/recipe.png'" alt="{{ recipe.title }}">
+              </div>
+            </a>
+            <div class="recipe-content">
+              <a [routerLink]="['/recipes', recipe.recipeId]" class="title-link">
+                <h5 class="recipe-title">{{ recipe.title }}</h5>
+              </a>
+              <p class="recipe-author">
+                By <a [routerLink]="['/users', recipe.username]" class="username-link">{{ recipe.username }}</a>
+              </p>
+
+              <div class="nutrition-info">
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Calories:</span>
+                  <span class="nutrition-value">{{ recipe.calories }} kcals</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Protein:</span>
+                  <span class="nutrition-value">{{ recipe.protein }}g</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Carbs:</span>
+                  <span class="nutrition-value">{{ recipe.carbs }}g</span>
+                </div>
+                <div class="nutrition-item">
+                  <span class="nutrition-label">Fats:</span>
+                  <span class="nutrition-value">{{ recipe.fats }}g</span>
+                </div>
+              </div>
+            </div>
+            <div class="recipe-footer">
+              <small class="likes-count">
+                {{ recipe.likes }} {{ recipe.likes === 1 ? 'like' : 'likes' }}
+              </small>
+              <app-like-button [recipeId]="recipe.recipeId" class="recipe-like-button"></app-like-button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- No recipes found -->
+    @if (recipes.length === 0) {
+      <div class="no-recipes">
+        <p>No recipes found matching your criteria.</p>
+        <button class="btn-reset-filters" (click)="resetFilters()">Reset Filters</button>
+      </div>
+    }
+
+    <!-- Mat Pagination -->
+    @if (totalElements > 0) {
+      <div class="pagination-container">
+        <mat-paginator
+          class="custom-paginator"
+          [length]="totalElements"
+          [pageSize]="size"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="page"
+          (page)="handlePageEvent($event)"
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    }
+  }
+</div>

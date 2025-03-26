@@ -1,0 +1,351 @@
+<div class="recipe-form-container">
+  <h1 class="page-title">Create a New Recipe</h1>
+  
+  <div class="page-description">
+    <p>Share your culinary creativity with our community! Add detailed ingredients, instructions, and nutritional information to help others recreate your delicious dish.</p>
+  </div>
+
+  <div class="recipe-section-divider"></div>
+
+  <form [formGroup]="recipeForm" (submit)="submitRecipe()" class="recipe-creation-form">
+    <div class="row g-3">
+
+      <div class="col-12">
+        <div class="row">
+
+          <div class="col-md-8">
+            <div class="recipe-field-group">
+              <label class="recipe-field-label">Title</label>
+              <input formControlName="title" type="text" placeholder="Recipe Title"
+                  class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('title')}">
+                  @if (mainFieldError('title') && 
+                      recipeForm.get('title')?.hasError('required')) {
+                      <small class="error-message">Title is required</small>
+                  }
+                  @if (recipeForm.get('title')?.hasError('minlength')) {
+                      <small class="error-message">Title must be at least 10 characters long</small>
+                  }
+            </div>
+    
+            <div class="recipe-field-group">
+              <label class="recipe-field-label">Description</label>
+              <textarea formControlName="description" rows="3" placeholder="Recipe Description"
+                  class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('description')}"></textarea>
+                  @if (mainFieldError('description') && 
+                      recipeForm.get('description')?.hasError('required')) {
+                      <small class="error-message">Description is required</small>
+                  }
+                  @if (recipeForm.get('description')?.hasError('minlength')) {
+                      <small class="error-message">Description must be at least 10 characters long</small>
+                  }
+            </div>
+    
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="recipe-field-label">Prep Time (minutes)</label>
+                <input formControlName="prep_time" type="number"
+                    class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('prep_time')}">
+                    @if (mainFieldError('prep_time') && 
+                    recipeForm.get('prep_time')?.hasError('required')) {
+                    <small class="error-message">Prep Time is required</small>
+                    }
+                    @if (recipeForm.get('prep_time')?.hasError('min')) {
+                        <small class="error-message">Prep Time must be at least 0 minutes</small>
+                    }
+                    @if (mainFieldError('prep_time') && 
+                    recipeForm.get('prep_time')?.hasError('wholeNumber')) {
+                    <small class="error-message">Prep Time must be a whole number</small>
+                    }
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="recipe-field-label">Cook Time (minutes)</label>
+                <input formControlName="cook_time" type="number" 
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('cook_time')}">
+                    @if (mainFieldError('cook_time') && 
+                    recipeForm.get('cook_time')?.hasError('required')) {
+                    <small class="error-message">Cook Time is required</small>
+                    }
+                    @if (recipeForm.get('cook_time')?.hasError('min')) {
+                        <small class="error-message">Cook Time must be at least 0 minutes</small>
+                    }
+                    @if (mainFieldError('cook_time') && 
+                    recipeForm.get('cook_time')?.hasError('wholeNumber')) {
+                    <small class="error-message">Cook Time must be a whole number</small>
+                    }
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="col-md-4">
+            <div class="recipe-field-group h-100">
+              <label class="recipe-field-label-photo">Photo</label>
+              <div class="recipe-image-uploader h-100" [ngClass]="{'image-selected': selectedImage}" (click)="triggerFileInput()">
+                @if (selectedImage) {
+                  <img [src]="imagePreview" alt="Recipe Preview" class="preview-image">
+                  <p class="upload-instructions">Click to change image</p>
+                } @else {
+                  <i class="bi bi-camera upload-icon"></i>
+                  <p class="upload-instructions">Click to upload a recipe photo</p>
+                  <p class="upload-instructions small">(JPG, JPEG, or PNG)</p>
+                }
+                <input #fileInput type="file" hidden class="form-control" 
+                    accept="image/jpg, image/jpeg, image/png"
+                    (change)="onImageSelected($event)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-section-divider"></div>
+      
+
+      <div class="col-12">
+        <h4 class="recipe-section-heading">Nutritional Information (per serving)</h4>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="recipe-field-label">Protein (g)</label>
+            <input formControlName="protein" type="number"
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('protein')}">
+                @if (mainFieldError('protein') && 
+                recipeForm.get('protein')?.hasError('required')) {
+                <small class="error-message">Protein is required</small>
+                }
+                @if (recipeForm.get('protein')?.hasError('min')) {
+                    <small class="error-message">Protein amount must be at least 0g</small>
+                }
+                @if (recipeForm.get('protein')?.hasError('wholeNumber')) {
+                    <small class="error-message">Protein amount must be a whole number</small>
+                }
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="recipe-field-label">Carbs (g)</label>
+            <input formControlName="carbs" type="number"
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('carbs')}">
+                @if (mainFieldError('carbs') && 
+                recipeForm.get('carbs')?.hasError('required')) {
+                <small class="error-message">Carbs is required</small>
+                }
+                @if (recipeForm.get('carbs')?.hasError('min')) {
+                    <small class="error-message">Carbs amount must be at least 0g</small>
+                }
+                @if (recipeForm.get('carbs')?.hasError('wholeNumber')) {
+                    <small class="error-message">Carbs amount must be a whole number</small>
+                }
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="recipe-field-label">Fats (g)</label>
+            <input formControlName="fats" type="number"
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('fats')}">
+                @if (mainFieldError('fats') && 
+                recipeForm.get('fats')?.hasError('required')) {
+                <small class="error-message">Fats is required</small>
+                }
+                @if (recipeForm.get('fats')?.hasError('min')) {
+                    <small class="error-message">Fats amount must be at least 0g</small>
+                }
+                @if (recipeForm.get('fats')?.hasError('wholeNumber')) {
+                    <small class="error-message">Fats amount must be a whole number</small>
+                }
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="recipe-field-label">Calories (kcals)</label>
+            <input formControlName="calories" type="number"
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('calories')}">
+                @if (mainFieldError('calories') && 
+                recipeForm.get('calories')?.hasError('required')) {
+                <small class="error-message">Calories is required</small>
+                }
+                @if (recipeForm.get('calories')?.hasError('min')) {
+                    <small class="error-message">Calories amount must be at least 1kcal</small>
+                }
+                @if (recipeForm.get('calories')?.hasError('wholeNumber')) {
+                    <small class="error-message">Calories amount must be a whole number</small>
+                }
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="recipe-field-label">Recipe Yield (Number of Servings)</label>
+            <input formControlName="servings" type="number"
+                class="form-control recipe-input" [ngClass]="{'input-error': mainFieldError('servings')}">
+                @if (mainFieldError('servings') && 
+                recipeForm.get('servings')?.hasError('required')) {
+                <small class="error-message">Recipe yield is required</small>
+                }
+                @if (recipeForm.get('servings')?.hasError('min')) {
+                    <small class="error-message">Recipe must yield at least 1 serving</small>
+                }
+                @if (recipeForm.get('servings')?.hasError('wholeNumber')) {
+                    <small class="error-message">Yield must be a whole number</small>
+                }
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-section-divider"></div>
+
+
+      <div class="col-12">
+        <h4 class="recipe-section-heading">Ingredients</h4>
+        
+        @if (ingredients.controls.length > 0) {
+          <div class="recipe-table-container table-responsive">
+            <table class="recipe-table table table-hover">
+              <thead>
+                <tr class="table-header-row">
+                  <th class="table-header text-center">#</th>
+                  <th class="table-header">Ingredient</th>
+                  <th class="table-header">Amount</th>
+                  <th class="table-header">Unit</th>
+                  <th class="table-header">Notes</th>
+                  <th class="table-header"></th>
+                </tr>
+              </thead>
+              <tbody formArrayName="ingredients">
+                @for (ingredient of ingredients.controls; let idx = $index; track ingredient) {
+                  <tr [formGroupName]="idx" class="table-row">
+                    <td class="table-cell text-center" data-label="No.">{{ idx + 1 }}</td>
+                    <td class="table-cell" data-label="Ingredient">
+                      <input formControlName="ingredient" type="text" 
+                        class="form-control form-control-sm recipe-input" 
+                        [ngClass]="{'input-error': ingredientFieldError(idx, 'ingredient')}">
+                      <div class="error-message">
+                        @if (ingredientFieldError(idx, 'ingredient') && 
+                            ingredients.at(idx).get('ingredient')?.hasError('required')) {
+                            Ingredient is required
+                        }
+                      </div>
+                    </td>
+                    <td class="table-cell" data-label="Amount">
+                      <input formControlName="amount" type="text" 
+                        class="form-control form-control-sm recipe-input" 
+                        [ngClass]="{'input-error': ingredientFieldError(idx, 'amount')}">
+                      <div class="error-message">
+                        @if (ingredientFieldError(idx, 'amount') && 
+                            ingredients.at(idx).get('amount')?.hasError('required')) {
+                            Amount is required
+                        }
+                        @if (ingredientFieldError(idx, 'amount') && 
+                            ingredients.at(idx).get('amount')?.hasError('invalidFraction')) {
+                            Amount must be a number, decimal, or fraction
+                        }
+                        @if (ingredientFieldError(idx, 'amount') && 
+                            ingredients.at(idx).get('amount')?.hasError('maxTwoDecimalPlaces')) {
+                            Maximum of 2 decimal places allowed for amount
+                        }
+                      </div>
+                    </td>
+                    <td class="table-cell" data-label="Unit">
+                      <select formControlName="unit" class="form-select form-select-sm recipe-select" 
+                        [ngClass]="{'input-error': ingredientFieldError(idx, 'unit')}">
+                        <option value="">Select unit</option>
+                        @for (unit of unitOptions; track unit) {
+                          <option [value]="unit">{{ unit }}</option>
+                        }
+                      </select>
+                      <div class="error-message">
+                        @if (ingredientFieldError(idx, 'unit') && 
+                            ingredients.at(idx).get('unit')?.hasError('required')) {
+                            Please select a unit
+                        }
+                      </div>
+                    </td>
+                    <td class="table-cell" data-label="Notes">
+                      <input formControlName="notes" type="text" class="form-control form-control-sm recipe-input-notes">
+                      <div class="error-message"></div>
+                    </td>
+                    <td class="table-cell text-center" data-label="Actions">
+                      <button type="button" class="btn btn-danger btn-trash" (click)="removeIngredient(idx)">
+                        <i class="bi bi-trash btn-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="text-muted py-2 mb-3">Add ingredients to your recipe</div>
+        }
+
+        <button type="button" class="btn btn-main" (click)="addIngredient()">
+          <i class="bi bi-plus btn-icon"></i>&nbsp; Add Ingredient
+        </button>
+      </div>
+
+      <div class="recipe-section-divider mb-3"></div>
+
+
+      <div class="col-12">
+        <h4 class="recipe-section-heading">Cooking Instructions</h4>
+        
+        @if (instructions.controls.length > 0) {
+          <div class="recipe-table-container table-responsive">
+            <table class="recipe-table table table-hover">
+              <thead>
+                <tr class="table-header-row">
+                  <th class="table-header text-center" style="width: 5%;">Step</th>
+                  <th class="table-header" style="width: 88%;">Instruction</th>
+                  <th class="table-header text-center" style="width: 7%;"></th>
+                </tr>
+              </thead>
+              <tbody formArrayName="instructions">
+                @for (step of instructions.controls; let idx = $index; track step) {
+                  <tr [formGroupName]="idx" class="table-row">
+                    <td class="table-cell text-center" data-label="Step">{{ idx + 1 }}</td>
+                    <td class="table-cell" data-label="Instruction">
+                      <textarea formControlName="step" rows="2" 
+                        class="form-control form-control-sm recipe-input" 
+                        [ngClass]="{'input-error': instructionsFieldError(idx, 'step')}"></textarea>
+                      <div class="error-message">
+                        @if (instructionsFieldError(idx, 'step') && 
+                            instructions.at(idx).get('step')?.hasError('required')) {
+                            Step is required
+                        }   
+                        @if (instructionsFieldError(idx, 'step') && 
+                            instructions.at(idx).get('step')?.hasError('minlength')) {
+                            Step must be at least 5 characters long
+                        }   
+                      </div>
+                    </td>
+                    <td class="table-cell text-center" data-label="Actions">
+                      <button type="button" class="btn btn-danger btn-trash" (click)="removeStep(idx)">
+                        <i class="bi bi-trash btn-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="text-muted py-2 mb-3">Add cooking instructions to your recipe</div>
+        }
+    
+        <button type="button" class="btn btn-main" (click)="addStep()">
+          <i class="bi bi-plus btn-icon"></i>&nbsp; Add Cooking Step
+        </button>
+      </div>
+    </div>
+
+    <div class="recipe-section-divider"></div>
+
+
+    <div class="recipe-action-container">
+      <button type="submit" class="btn btn-main" [disabled]="isFormInvalid() || isLoading">
+        <i class="bi bi-check-circle btn-icon"></i>&nbsp;&nbsp; Submit Recipe
+      </button>
+      <button type="button" class="btn btn-danger" [routerLink]="['/recipes']">
+        <i class="bi bi-x-circle btn-icon"></i>&nbsp;&nbsp; Cancel
+      </button>
+    </div>
+  </form>
+
+  <div class="recipe-section-divider"></div>
+
+</div>

@@ -1,0 +1,54 @@
+.account-wrapper {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.account-header {
+  margin-top: 0.75rem;
+  margin-bottom: 3rem;
+
+  .account-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: black;
+
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  .account-description {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #666;
+    line-height: 1.6;
+  }
+}
+
+.account-content {
+  .col-md-6 {
+    margin-bottom: 2rem;
+
+    @media (min-width: 768px) {
+      margin-bottom: 0;
+      padding: 0 2rem;
+    }
+  }
+
+
+  @media (min-width: 768px) {
+    .col-md-6:first-child {
+      padding-right: 3rem;
+    }
+
+    .col-md-6:last-child {
+      padding-left: 3rem;
+    }
+  }
+}

@@ -1,0 +1,90 @@
+<div class="auth-card register-card">
+    <div class="auth-card-header">
+      <i class="bi bi-person-plus-fill"></i>
+      <h3>New Users Registration</h3>
+    </div>
+    
+    <div class="auth-card-body">
+      <form [formGroup]="newUserForm" (submit)="submitForm()">
+        <div class="form-group mb-3">
+          <label class="form-label">Name <span class="required-mark">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+            <input formControlName="name" type="text"
+              class="form-control" [ngClass]="{'is-invalid': fieldError('name')}"
+              placeholder="Your full name">
+          </div>
+        </div>
+    
+        <div class="form-group mb-3">
+          <label class="form-label">Username <span class="required-mark">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-at"></i></span>
+            <input formControlName="username" type="text"
+              class="form-control" [ngClass]="{'is-invalid': fieldError('username')}"
+              placeholder="Choose a unique username">
+          </div>
+          @if (newUserForm.get('username')?.hasError('notAvailable')){
+            <small class="text-danger"><i class="bi bi-exclamation-circle"></i> Username has been taken</small>
+          }
+          @if (newUserForm.get('username')?.hasError('pattern')){
+            <small class="text-danger"><i class="bi bi-exclamation-circle"></i> Username can only have letters, digits, "-", or "_"</small>
+          }
+        </div>
+    
+        <div class="form-group mb-3">
+          <label class="form-label">Email <span class="required-mark">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input formControlName="email" type="email"
+              class="form-control" [ngClass]="{'is-invalid': fieldError('email')}"
+              placeholder="Your email address">
+          </div>
+          @if (newUserForm.get('email')?.hasError('notAvailable')){
+            <small class="text-danger"><i class="bi bi-exclamation-circle"></i> Email has been registered, please login instead</small>
+          }
+        </div>
+    
+        <div class="form-group mb-3">
+          <label class="form-label">Password <span class="required-mark">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            <input formControlName="password" type="password"
+              class="form-control" [ngClass]="{'is-invalid': fieldError('password')}"
+              placeholder="Create a password">
+          </div>
+        </div>
+    
+        <div class="form-group mb-3">
+          <label class="form-label">Confirm Password <span class="required-mark">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+            <input formControlName="confirm_password" type="password"
+              class="form-control" [ngClass]="{'is-invalid': passwordMatchError()}"
+              placeholder="Confirm your password">
+          </div>
+          @if (passwordMatchError()) {
+            <small class="text-danger"><i class="bi bi-exclamation-circle"></i> Passwords do not match</small>
+          }
+        </div>
+    
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="auth-button register-button" [disabled]="isFormInvalid() || newUserForm.pending || isLoading">
+            <i class="bi bi-person-plus"></i> Register
+          </button>
+        </div>
+      </form>
+    
+      @if (registrationSuccess) {
+        <div class="alert alert-success mt-3" role="alert">
+          <i class="bi bi-check-circle-fill"></i> Registration successful, please login
+        </div>
+      }
+    
+      @if (registrationError) {
+        <div class="alert alert-danger mt-3" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i> Registration failed, please try again
+        </div>
+      }
+    </div>
+  </div>

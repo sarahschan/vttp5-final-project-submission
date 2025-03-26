@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="header-content">
+    <a class="navbar-brand" href="#">
+      <img src="https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/the-good-plate-logo.png" width="130" height="100" alt="">
+    </a>
+  </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light header">
+  <div class="container-fluid d-flex justify-content-between">
+    <a class="navbar-brand d-lg-none" href="#"></a>
+    <button class="navbar-toggler ms-auto" type="button" (click)="isCollapsed = !isCollapsed" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed}" id="navbarNav">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" [routerLink]="['']">Home</a>
+      @if (!isLoggedIn) {
+        <a class="nav-item nav-link" [routerLink]="['/recipe-preview']">Recipes</a>
+        <a class="nav-item nav-link" [routerLink]="['/partners']">Partners</a>
+        <a class="nav-item nav-link" [routerLink]="['/login']">Login / Sign Up</a>
+      }
+      @if (isLoggedIn) {
+        <a class="nav-item nav-link" [routerLink]="['/activity']">Activity Feed</a>
+        <a class="nav-item nav-link" [routerLink]="['/recipes']">Recipes</a>
+        <a class="nav-item nav-link" [routerLink]="['/recipes/cookbook']">My Cookbook</a>
+        <a class="nav-item nav-link" [routerLink]="['/nutrition']">Nutrition Calculator</a>
+        <a class="nav-item nav-link" [routerLink]="['/clear-my-fridge']">Clear My Fridge</a>
+        <a class="nav-item nav-link" [routerLink]="['/partners']">Partners</a>
+        <a class="nav-item nav-link" [routerLink]="['/account']">Account</a>
+      }
+      
+    </div>
+  </div>
+</div>
+</nav>

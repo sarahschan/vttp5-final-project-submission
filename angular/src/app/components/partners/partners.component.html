@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <h1 class="page-title">Partner Stores</h1>
+  
+  <div class="page-description">
+    <p>Season your food with some sweet deals! We've partnered up with our favourite grocery stores to bring you mouth-watering savings. Simply present your active The Good Plate profile at checkout to receive 10% off your grocery bill!</p>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="partners-container">
+    <div class="map-section">
+      <div class="map-container">
+        @if (isLoading) {
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+            <p>Loading map...</p>
+          </div>
+        }
+        <div id="map"></div>
+      </div>
+    </div>
+
+    
+    <div class="list-section">
+      <div class="list-container">
+        <h2>Locations</h2>
+        
+        @if (isLoading) {
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+            <p>Loading partners...</p>
+          </div>
+        }
+        
+        @if (!isLoading && (!partners || partners.length === 0)) {
+          <div class="empty-state">
+            <p>No partner locations found.</p>
+          </div>
+        }
+        
+        @if (!isLoading && partners && partners.length > 0) {
+          <ul class="partners-list">
+            @for (partner of partners; track partner.partnerStoreId) {
+              <li class="partner-item" 
+                  #partnerItem
+                  [class.active]="selectedPartner?.partnerStoreId === partner.partnerStoreId"
+                  (click)="selectPartner(partner)"
+                  (mouseenter)="highlightMarker(partner)"
+                  (mouseleave)="resetMarkerHighlight(partner)">
+                
+                <h3 class="partner-name">{{ partner.name }}</h3>
+                
+                <div class="partner-details">
+                  <div class="partner-address">
+                    <p>{{ partner.addressLine1 }}</p>
+                    @if (partner.addressLine2) {
+                      <p>{{ partner.addressLine2 }}</p>
+                    }
+                    <p>Singapore {{ partner.postalCode }}</p>
+                  </div>
+                  
+                  @if (partner.phone || partner.website) {
+                    <div class="partner-contact">
+                      @if (partner.phone) {
+                        <p>
+                          <span class="label">Phone:</span> 
+                          <span class="value">{{ partner.phone }}</span>
+                        </p>
+                      }
+                      @if (partner.website) {
+                        <p>
+                          <span class="label">Website:</span> 
+                          <a [href]="partner.website" target="_blank" class="website-link">{{partner.website}}</a>
+                        </p>
+                      }
+                    </div>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </div>
+
+  <br><br><br>
+  
+</div>

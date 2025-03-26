@@ -1,0 +1,17 @@
+<button 
+    class="btn" 
+    [ngClass]="isFollowing ? 'btn-secondary' : 'btn-primary'" 
+    [disabled]="isDisabled || isLoading" 
+    (click)="followChange()">
+  
+
+     @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    }
+    
+
+    <span>
+        <i class="bi" [ngClass]="isFollowing ? 'bi-person-check-fill' : 'bi-person-plus'"></i>
+        {{ isFollowing ? 'Following' : 'Follow' }}
+    </span>
+</button>

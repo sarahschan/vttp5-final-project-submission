@@ -1,0 +1,52 @@
+<div class="page-body">
+
+    <div class="home-1">
+        <img src="https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/home-1.jpg">
+    </div>
+    
+    <div class="greeting">
+        <h1>Welcome to The Good Plate</h1>
+        <h1>We're so excited to have you on board</h1>
+        <h1>Let's get you started</h1>
+    </div>
+
+    <div class="options">
+
+        <div class="option-select">
+            <img src="https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/home-2.jpg" alt="Login account">
+            <div class="option-overlay"></div>
+            <div class="option-text">
+                @if (isLoggedIn) {
+                    <div class="option-category">What's Cooking</div>
+                    <h2 class="option-title">Stay Connected</h2>
+                    <button [routerLink]="['/activity']">My Feed</button>
+                } @else {
+                    <div class="option-category">Member Access</div>
+                    <h2 class="option-title">Your Personal Kitchen</h2>
+                    <button [routerLink]="['/login']">Log in</button>
+                }
+            </div>
+        </div>
+
+        <div class="option-select">
+            <img src="https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/home-3.jpg" alt="Discover recipes">
+            <div class="option-overlay"></div>
+            <div class="option-text">
+                <div class="option-category">Recipe Collection</div>
+                <h2 class="option-title">Discover Healthy Meals</h2>
+                <button [routerLink]="['/recipes']">Explore</button>
+            </div>
+        </div>
+
+        <div class="option-select">
+            <img src="https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/home-4.jpg" alt="Contribute">
+            <div class="option-overlay"></div>
+            <div class="option-text">
+                <div class="option-category">Community Kitchen</div>
+                <h2 class="option-title">Share Your Creations</h2>
+                <button [routerLink]="['/recipes/new']">Contribute</button>
+            </div>
+        </div>
+    </div>
+    
+</div>

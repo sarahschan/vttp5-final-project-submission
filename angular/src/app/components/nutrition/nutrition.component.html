@@ -1,0 +1,219 @@
+<div class="nutrition-container">
+
+    <h1 class="page-title">Nutrition Calculator</h1>
+
+    <div class="page-description">
+        <p>Not sure where to start? Enter your details below and let our nutrition wizard work its magic! 🥗✨<br>Find out exactly what your body needs to thrive, whether you're looking to shed pounds, build muscle, or just feel your absolute best. No complicated math required - we've got you covered!</p>
+    </div>
+
+    <br><br>
+
+  <form [formGroup]="form" (submit)="processForm()">
+      <div class="form-row">
+          <div class="form-group">
+              <label class="form-label">Height (cm)</label>
+              <input formControlName="height" type="number"
+                  class="form-control" [ngClass]="{'is-invalid': fieldError('height')}">
+              @if (fieldError('height') && form.get('height')?.hasError('required')) {
+                  <small class="text-danger">Height is required</small>
+              }
+              @if (fieldError('height') && (form.get('height')?.hasError('min') || form.get('height')?.hasError('max'))) {
+                  <small class="text-danger">Height must be between 60 - 225cm</small>
+              }
+              @if (fieldError('height') && form.get('height')?.hasError('maxTwoDecimalPlaces')) {
+                  <small class="text-danger">Maximum of 2 decimal places allowed for height</small>
+              }
+          </div>
+
+          <div class="form-group">
+              <label class="form-label">Weight (kg)</label>
+              <input formControlName="weight" type="number"
+                  class="form-control" [ngClass]="{'is-invalid': fieldError('weight')}">
+              @if (fieldError('weight') && form.get('weight')?.hasError('required')) {
+                  <small class="text-danger">Weight is required</small>
+              }
+              @if (fieldError('weight') && (form.get('weight')?.hasError('min') || form.get('weight')?.hasError('max'))) {
+                  <small class="text-danger">Weight must be between 9 - 500kg</small>
+              }
+              @if (fieldError('weight') && form.get('weight')?.hasError('maxTwoDecimalPlaces')) {
+                  <small class="text-danger">Maximum of 2 decimal places allowed for weight</small>
+              }
+          </div>
+
+          <div class="form-group">
+              <label class="form-label">Age (years)</label>
+              <input formControlName="age" type="number"
+                  class="form-control" [ngClass]="{'is-invalid': fieldError('age')}">
+              @if (fieldError('age') && form.get('age')?.hasError('required')) {
+                  <small class="text-danger">Age is required</small>
+              }
+              @if (fieldError('age') && (form.get('age')?.hasError('min') || form.get('age')?.hasError('max'))) {
+                  <small class="text-danger">Age must be between 18 and 120 years old</small>
+              }
+              @if (fieldError('age') && form.get('age')?.hasError('wholeNumber')) {
+                  <small class="text-danger">Age must be a whole number</small>
+              }
+          </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group">
+              <label class="form-label">Sex</label>
+              <div class="radio-group">
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="sex" value="female">
+                      <label class="form-check-label">Female</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="sex" value="male">
+                      <label class="form-check-label">Male</label>
+                  </div>
+              </div>
+              @if (fieldError('sex')) {
+                  <small class="text-danger">Sex is required</small>
+              }
+          </div>
+      
+          <div class="form-group">
+              <label class="form-label">Goal</label>
+              <div class="radio-group">
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="goal" value="lose">
+                      <label class="form-check-label">Weight Loss</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="goal" value="maintain">
+                      <label class="form-check-label">Maintainence</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="goal" value="gain">
+                      <label class="form-check-label">Weight Gain</label>
+                  </div>
+              </div>
+              @if (fieldError('goal')) {
+                  <small class="text-danger">Goal is required</small>
+              }
+          </div>
+      
+          <div class="form-group">
+              <label class="form-label">Activity Level</label>
+              <div class="radio-group">
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="activityLevel" value="sedentary">
+                      <label class="form-check-label">Little to no exercise</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="activityLevel" value="light">
+                      <label class="form-check-label">Light exercise 1-3 days per week</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="activityLevel" value="moderate">
+                      <label class="form-check-label">Moderate exercise 3-5 days per week</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="activityLevel" value="active">
+                      <label class="form-check-label">Hard exercise 6-7 days per week</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="activityLevel" value="very_active">
+                      <label class="form-check-label">Very hard exercise 6-7 days per week or holding a very hard physical job</label>
+                  </div>
+              </div>
+              @if (fieldError('activityLevel')) {
+                  <small class="text-danger">Activity Level is required</small>
+              }
+          </div>
+      </div>
+
+      <div class="form-submit">
+          <button type=submit class="btn btn-primary" [disabled]="invalidForm() || isLoading">Calculate</button>
+      </div>
+  </form>
+
+  <br>
+
+  <div class="disclaimer">
+      <p>The calculations of nutrition recommendations make use of the Mifflin-St Jeor Equation, providing a range of suggested values for a person's macronutrient and calorie needs under normal conditions.</p>
+      <p>The suggested values are meant as an estimate, please reference these values with discretion. For a more in-depth analysis of your nutritional needs, please consult a registered dietitian or nutritionist.</p>
+  </div>
+  <br>
+
+  @if (nutritionRec) {
+      <div #resultsContainer class="results-container">
+        <br>
+          <h2>Recommended daily intake</h2>
+          <br>
+
+          <table class="results-table">
+            <tr>
+                <td>Calories</td>
+                <td>
+                  {{nutritionRec.calories}} kcals
+                  <p class="description">The recommended daily caloric intake based on your goals and activity level</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Total daily energy expenditure (TDEE)</td>
+                <td>
+                  {{nutritionRec.tdee}} kcals
+                  <p class="description">The total number of calories your body burns in a day, including activity</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Basal metabolic rate (BMR)</td>
+                <td>
+                  {{nutritionRec.bmr}} kcals
+                  <p class="description">The calories your body needs at complete rest to maintain basic functions</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Carbohydrates</td>
+                <td>
+                  {{nutritionRec.carbs}}g
+                  <span class="range">({{nutritionRec.carbsRange}}g)</span>
+                  <p class="description">Recommended range for low to high carbohydrate intake</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Protein</td>
+                <td>
+                  {{nutritionRec.protein}}g
+                  <span class="range">({{nutritionRec.proteinRange}}g)</span>
+                  <p class="description">Recommended range for low to high protein intake</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Fat</td>
+                <td>
+                  {{nutritionRec.fat}}g
+                  <span class="range">({{nutritionRec.fatRange}}g)</span>
+                  <p class="description">Recommended range for low to high fat</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Saturated Fat</td>
+                <td>
+                  {{nutritionRec.saturatedFat}}g
+                  <p class="description">Maximum recommended amount of saturated fat per day</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Sugar</td>
+                <td>
+                  {{nutritionRec.sugar}}g
+                  <p class="description">Maximum recommended amount of added sugar per day</p>
+                </td>
+            </tr>
+        </table>
+      </div>
+  }
+
+<br><br>
+</div>

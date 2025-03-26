@@ -1,0 +1,192 @@
+@if (recipe) {
+
+  <div class="container-fluid recipe-detail">
+    
+    <div class="recipe-header text-center">
+      <h1 class="recipe-title">{{ recipe.title }}</h1>
+      <p class="recipe-author">
+        By <a [routerLink]="['/users', recipe.username]" class="username-link">{{ recipe.username }}</a>
+      </p>
+    </div>
+    
+    @if (recipe.image_url) {
+      <div class="recipe-image-container">
+        <img [src]="recipe.image_url || 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/recipe.png'"
+          alt="{{ recipe.title }}" class="recipe-image">
+      </div>
+    }
+    
+    
+    <div class="recipe-info-section">
+      <div class="recipe-description-container">
+        <div class="description-header">
+          <h2>Description</h2>
+          <app-like-button [recipeId]="recipe.recipe_id" class="like-button"></app-like-button>
+        </div>
+        
+        @if (recipe.description.length <= 0) {
+          <div class="no-description">
+            <p>No description provided</p>
+          </div>
+        } @else {
+          <p class="recipe-description">{{recipe.description}}</p>
+        }
+      </div>
+      
+      <div class="time-info">
+        <div class="time-card">
+          <i class="bi bi-clock"></i>
+          <h3>Prep Time</h3>
+          <p>{{ recipe.prep_time }} min</p>
+        </div>
+        <div class="time-card">
+          <i class="bi bi-fire"></i>
+          <h3>Cook Time</h3>
+          <p>{{ recipe.cook_time }} min</p>
+        </div>
+        <div class="time-card">
+          <i class="bi bi-hourglass-split"></i>
+          <h3>Total Time</h3>
+          <p>{{ recipe.cook_time + recipe.prep_time }} min</p>
+        </div>
+        <div class="time-card">
+          <i class="bi bi-people"></i>
+          <h3>Yield</h3>
+          <p>{{ recipe.servings}} servings</p>
+        </div>
+      </div>
+
+      <br>
+      
+      <div class="nutrition-section">
+        <h2>Nutrition Information</h2>
+        <div class="nutrition-cards">
+          <div class="nutrition-card">
+            <h3>Calories</h3>
+            <p>{{ recipe.calories }} kcals</p>
+          </div>
+          <div class="nutrition-card">
+            <h3>Protein</h3>
+            <p>{{ recipe.protein }} grams</p>
+          </div>
+          <div class="nutrition-card">
+            <h3>Carbs</h3>
+            <p>{{ recipe.carbs }} grams</p>
+          </div>
+          <div class="nutrition-card">
+            <h3>Fats</h3>
+            <p>{{ recipe.fats }} grams</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    
+    <div class="recipe-content">
+      <div class="ingredients-section">
+        <h2>Ingredients</h2>
+        <ul class="ingredients-list">
+          @for (ingredient of recipe.ingredients; track ingredient) {
+            <li class="ingredient-item">
+              <span class="ingredient-name">{{ ingredient.ingredient }}</span>
+              <span class="ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</span>
+              @if (ingredient.notes) {
+                <span class="ingredient-notes">{{ ingredient.notes }}</span>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+      
+      <div class="instructions-section">
+        <h2>Instructions</h2>
+        <ol class="instructions-list">
+          @for (instruction of recipe.instructions; track instruction) {
+            <li class="instruction-item">
+              <p>{{ instruction.step }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </div>
+
+    <hr>
+    <br>
+    <br>
+    
+    <div class="comments-section">
+      <div class="comments-header">
+        <h2>Comments</h2>
+        <span class="comments-count">{{ comments.length }}</span>
+      </div>
+      
+      <div class="new-comment">
+        <h3>Post a new comment</h3>
+        <form [formGroup]="commentForm" (submit)="postComment()">
+          <div class="comment-input">
+            <textarea 
+              formControlName="comment" 
+              rows="3" 
+              placeholder="Share your thoughts about this recipe..."></textarea>
+            <div class="comment-help">Be kind and respectful to the chef!</div>
+          </div>
+          <button type="submit" class="comment-button" [disabled]="isFormInvalid()">
+            <i class="bi bi-send"></i> Submit
+          </button>
+        </form>
+      </div>
+      
+      <div class="comments-list">
+        <h3>Community feedback</h3>
+        
+        @if (comments.length <= 0) {
+          <div class="no-comments">
+            <i class="bi bi-chat-square-text"></i>
+            <p>No comments yet. Be the first to share your thoughts!</p>
+          </div>
+        } @else {
+          <div class="comments">
+            @for (comment of comments; track comment) {
+              <div class="comment-item">
+                <div class="comment-profile">
+                  <img 
+                    [src]="comment.profile_picture ?? 'https://scyefinalproject.sgp1.digitaloceanspaces.com/assets/pfp.jpg'" 
+                    alt="Profile picture" 
+                    class="profile-picture">
+                </div>
+                <div class="comment-content">
+                  <a [routerLink]="[`/users/${comment.username}`]" class="commenter username-link">{{ comment.username }}</a>
+                  <p class="comment-text">{{ comment.comment }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+  
+@if (isLoading) {
+  <div class="loading-container">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading...</p>
+  </div>
+}
+
+
+<!-- Recipe not found error -->
+@if (!isLoading && !recipe) {
+  <div class="container-fluid">
+    <div class="recipe-error">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <p class="recipe-error-message">We couldn't find the recipe you're looking for.</p>
+      <a [routerLink]="['/recipes']" class="back-button">
+        <i class="bi bi-arrow-left"></i> Back to Recipes
+      </a>
+    </div>
+  </div>
+}

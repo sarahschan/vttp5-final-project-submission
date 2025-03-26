@@ -1,0 +1,9 @@
+<button class="btn" 
+        [ngClass]="isLiked ? 'btn-danger' : 'btn-outline-danger'"
+        (click)="toggleLike()"
+        [disabled]="isLoading">
+  
+    <i [ngClass]="isLiked ? 'bi-heart-fill' : 'bi-heart'"></i>
+    <span>{{ isLiked ? 'Liked' : 'Like' }}</span>
+
+</button>

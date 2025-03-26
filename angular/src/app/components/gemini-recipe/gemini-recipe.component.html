@@ -1,0 +1,144 @@
+<div class="gemini-recipe-container">
+    <h1 class="page-title">Recipe Generator</h1>
+    
+    <div class="page-description">
+      <p>Got ingredients in your fridge to clear? Just tell us what you have and our AI chef will craft a delicious recipe tailored just for you.</p>
+    </div>
+  
+    <div class="gemini-section-divider"></div>
+  
+    <form [formGroup]="form" (submit)="submitForm()" class="gemini-recipe-form">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="gemini-section-heading">Your Ingredients</h4>
+          
+          @if (ingredients.controls.length > 0) {
+            <div class="gemini-table-container table-responsive">
+              <table class="gemini-table table">
+                <thead>
+                  <tr class="table-header-row">
+                    <th class="table-header text-center">#</th>
+                    <th class="table-header">Ingredient</th>
+                    <th class="table-header">Amount</th>
+                    <th class="table-header"></th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="ingredients">
+                  @for (ingredient of ingredients.controls; let idx = $index; track ingredient) {
+                    <tr [formGroupName]="idx" class="table-row">
+                      <td class="table-cell text-center" data-label="No.">{{ idx + 1 }}</td>
+                      <td class="table-cell" data-label="Ingredient">
+                        <input formControlName="ingredient" type="text" 
+                            class="form-control form-control-sm gemini-input" 
+                            [ngClass]="{'is-invalid': ingredientFieldError(idx, 'ingredient')}">
+                        <div class="error-message">
+                          @if (ingredientFieldError(idx, 'ingredient') && 
+                              ingredients.at(idx).get('ingredient')?.hasError('required')) {
+                              Ingredient is required
+                          }
+                        </div>
+                      </td>
+                      <td class="table-cell" data-label="Amount">
+                        <input formControlName="amount" type="text" 
+                            class="form-control form-control-sm gemini-input" 
+                            [ngClass]="{'is-invalid': ingredientFieldError(idx, 'amount')}">
+                        <div class="error-message">
+                          @if (ingredientFieldError(idx, 'amount') && 
+                              ingredients.at(idx).get('amount')?.hasError('required')) {
+                              Amount is required
+                          }
+                        </div>
+                      </td>
+                      <td class="table-cell text-center" data-label="Actions">
+                        <button type="button" class="btn btn-danger btn-trash" (click)="removeIngredient(idx)">
+                          <i class="bi bi-trash btn-icon"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="text-muted py-2 mb-3">Add ingredients to your recipe</div>
+          }
+  
+          <button type="button" class="btn btn-main" (click)="addIngredient()">
+            <i class="bi bi-plus btn-icon"></i>&nbsp; Add Ingredient
+          </button>
+        </div>
+  
+        <div class="gemini-section-divider"></div>
+  
+        <div class="col-12 common-ingredients-section">
+          <h4 class="gemini-section-heading">Common Ingredients</h4>
+          <p class="gemini-description">Select common cooking staples that you have available</p>
+          
+          <div class="row" formGroupName="commonIngredients">
+            @for (ingredient of commonIngredients; track ingredient.value) {
+              <div class="col-md-4 mb-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" 
+                        [id]="ingredient.value" 
+                        [formControlName]="ingredient.value">
+                  <label class="form-check-label" [for]="ingredient.value">
+                    &nbsp;&nbsp;{{ ingredient.name }}
+                  </label>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+  
+        <br>
+  
+        <div class="gemini-action-container">
+          <button type="submit" class="btn btn-main" [disabled]="formInvalid() || isLoading">
+            <i class="bi bi-magic btn-icon"></i>&nbsp;&nbsp; Generate Recipe
+          </button>
+        </div>
+      </div>
+    </form>
+  
+    <div class="gemini-section-divider"></div>
+
+    @if (geminiError) {
+      <div class="alert alert-danger mt-3">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <p>Unable to generate your recipe.<br>The AI service may be temporarily unavailable, please try again in a few moments.</p>
+      </div>
+    }
+  
+    @if (geminiRecipe) {
+      <div #generatedRecipe class="generated-recipe">
+        <h2>{{geminiRecipe.title}}</h2>
+        <p>{{geminiRecipe.description}}</p>
+        
+        <div class="recipe-meta">
+          <p class="recipe-meta-item">Prep time: <span>{{geminiRecipe.prepTime}} minutes</span></p>
+          <p class="recipe-meta-item">Cook time: <span>{{geminiRecipe.cookTime}} minutes</span></p>
+        </div>
+        
+        <div>
+          <h3>Ingredients</h3>
+          <ul>
+            @for (ingredient of geminiRecipe.ingredients; track ingredient) {
+              <li>{{ingredient}}</li>
+            }
+          </ul>
+        </div>
+        
+        <div>
+          <h3>Instructions</h3>
+          <ol>
+            @for (step of geminiRecipe.steps; track step) {
+              <li>{{step}}</li>
+            }
+          </ol>
+        </div>
+      </div>
+    }
+
+    <br>
+    <br>
+  </div>
